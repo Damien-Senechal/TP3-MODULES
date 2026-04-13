@@ -56,6 +56,13 @@ CleaningTask
 - Cluster 3 : ...
   - Justification : ...
 
+-Cluster Booking : BookingService, RoomAssigner, IConfirmationSender, IReservationRepository, IRoomRepository, Reservation, Room, RoomType
+  -Ces classes changent quand les règles de réservation, check-in ou attribution de chambre évoluent. L'acteur est le réceptionniste.
+-Cluster Billing : BillingService, InvoiceGenerator, TaxCalculator, PricingStrategyFactory, IPricingStrategy, Invoice, InvoiceLine
+  -Ces classes changent quand la TVA, les tarifs ou le format de facture changent. L'acteur est le comptable.
+-Cluster Housekeeping : HousekeepingScheduler, ICleaningPolicy, ICleaningNotifier, CleaningTask, StandardCleaningPolicy, VipCleaningPolicy
+  -Ces classes changent quand la politique de ménage ou les canaux de notification changent. L'acteur est la gouvernante.
+
 ---
 
 ## Exercice 2 — Decoupage
