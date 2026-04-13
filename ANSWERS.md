@@ -4,11 +4,48 @@
 
 ### 1.1 Classes et interfaces publiques
 
-(Listez ici)
+IReservationRepository
+IRoomRepository
+IConfirmationSender
+ICleaningNotifier
+ICleaningPolicy
+IPricingStrategy
+
+BookingService
+BillingService
+HousekeepingScheduler
+
+EmailSender
+SmsSender
+InMemoryReservationStore
+InMemoryRoomStore
+InvoiceGenerator
+TaxCalculator
+PricingStrategyFactory
+RoomAssigner
+StandardCleaningPolicy
+VipCleaningPolicy
+FlexibleCancellationPolicy
+ModerateCancellationPolicy
+StrictCancellationPolicy
+NonRefundableCancellationPolicy
+StandardPricingStrategy
+SuitePricingStrategy
+FamilyPricingStrategy
+
+Reservation
+Room
+RoomType
+Invoice
+InvoiceLine
+CleaningTask
+
 
 ### 1.2 Graphe de dependances
 
 (Decrivez ou collez un schema)
+
+![Graphe de dépendances](schema.png)
 
 ### 1.3 Clusters identifies
 
