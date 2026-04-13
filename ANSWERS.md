@@ -73,11 +73,25 @@ CleaningTask
 |-------|---------------|
 | ... | ... |
 
+| Module               | Justification                                                                                             |
+|----------------------|-----------------------------------------------------------------------------------------------------------|
+| Hotel.Booking        | Regroupe les règles de réservation, check-in/check-out et attribution de chambre. Metier : réceptionniste |
+| Hotel.Billing        | Regroupe la facturation, le calcul de TVA et les stratégies de tarification. Metier : comptable           |
+| Hotel.Housekeeping   | Regroupe le planning de ménage et les politiques de nettoyage. Metier : gouvernante                       |
+| Hotel.Infrastructure | Contient les implémentations concrètes (stores en mémoire, EmailSender, SmsSender). Metier : none         |
+| Hotel.Runner         | Assemble les modules via DI, projet qui reference tous le monde                                           |
+
 ### Justification par principe
 
 - **CCP** : (expliquez pourquoi vous avez regroupe certaines classes)
 - **CRP** : (expliquez pourquoi vous avez separe certaines classes)
 - **REP** : (expliquez la coherence de chaque module)
+
+CCP : les classes qui changent ensemble pour la même raison sont dans le même module. BillingService, InvoiceGenerator et TaxCalculator changent tous si la TVA change, ils sont dans Hotel.Billing. HousekeepingScheduler et StandardCleaningPolicy changent si la politique de ménage change, ils sont dans Hotel.Housekeeping. On n'a pas mélangé des classes qui répondent à des acteurs différents.
+
+CRP : on a évité de forcer des dépendances inutiles. Chaque module a sa propre vision des données via des DTOs dédiés (BillingReservationDto, HousekeepingReservationDto). Billing ne connaît pas le GuestPhone, Housekeeping ne connaît pas le TotalPrice. EmailSender et SmsSender sont dans Infrastructure et non dans les modules métier, donc ajouter un canal push ne touche pas Booking ou Housekeeping.
+
+REP : chaque module métier est cohérent et pourrait être réutilisé indépendamment. Hotel.Billing peut être embarqué dans n'importe quel système de facturation hôtelière sans emporter le ménage. Hotel.Housekeeping peut tourner seul dans un outil de gestion du personnel. Hotel.Infrastructure en revanche n'est pas réutilisable seule, c'est normal : c'est le câblage concret, pas une librairie.
 
 ---
 
