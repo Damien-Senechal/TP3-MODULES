@@ -99,22 +99,27 @@ REP : chaque module métier est cohérent et pourrait être réutilisé indépen
 
 ### Scenario A — Politique de menage
 
-- Fichiers modifies : ...
-- Modules impactes : ...
-- Principe en jeu : ...
+- Fichiers modifies : Hotel.Housekeeping/CleaningPolicy.cs (1 fichier)
+- Modules impactes : Hotel.Housekeeping (1 module)
+On change AddDays(3) en AddDays(2) dans StandardCleaningPolicy. Aucun autre module n'est au courant de ce changement.
 
 ### Scenario B — Taux de TVA
 
-- Fichiers modifies : ...
-- Modules impactes : ...
+- Fichiers modifies : Hotel.Billing/TaxCalculator.cs (1 fichier)
+- Modules impactes : Modules impactés : Hotel.Billing (1 module)
+On change la constante AccommodationTvaRate de 0.10m à 0.12m. Booking et Housekeeping ne connaissent pas TaxCalculator, ils ne sont pas touchés.
 
 ### Scenario C — Push notification
 
-- Fichiers crees : ...
-- Fichiers modifies : ...
-- Modules metier impactes : ...
-- Principe en jeu : ...
+- Fichiers crees : 1 créé
+- Fichiers modifies : 1 modifié
+- Modules metier impactes : 0
+
+On crée PushNotificationSender dans Hotel.Infrastructure qui implémente IConfirmationSender. On modifie le câblage dans ServiceRegistration ou Program.cs pour l'enregistrer.
+
+Hotel.Booking ne connaît que IConfirmationSender, peu importe si derrière c'est un email, un SMS ou un push. L'interface appartient au module Booking, l'implémentation est dans Infrastructure.
 
 ### Comparaison avec le code de depart
 
-(Paragraphe d'analyse)
+Le principe qui garantit que le scénario A ne touche qu'un seul module est le CCP (Common Closure Principle) : la politique de nettoyage et son implémentation sont dans le même module Hotel.Housekeeping. Tout ce qui change ensemble vit ensemble.
+Le principe qui garantit que le scénario C n'impacte pas les modules métier est le DIP via les ports & adapters : Hotel.Booking définit IConfirmationSender (le port), PushNotificationSender est un adapter dans Infrastructure. Le module métier ne dépend pas de l'implémentation concrète.

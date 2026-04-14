@@ -13,7 +13,7 @@ internal class StandardCleaningPolicy : ICleaningPolicy
     {
         var tasks = new List<CleaningTaskDto>();
 
-        var current = reservation.CheckIn.AddDays(3);
+        var current = reservation.CheckIn.AddDays(2);
         while (current < reservation.CheckOut)
         {
             tasks.Add(new CleaningTaskDto
@@ -23,7 +23,7 @@ internal class StandardCleaningPolicy : ICleaningPolicy
                 Type = "LinenChange",
                 ReservationId = reservation.Id
             });
-            current = current.AddDays(3);
+            current = current.AddDays(2);
         }
 
         tasks.Add(new CleaningTaskDto

@@ -23,6 +23,7 @@ public static class ServiceRegistration
         services.AddSingleton<IBillingRoomRepository>(sp => sp.GetRequiredService<InMemoryRoomStore>());
 
         services.AddSingleton<IConfirmationSender, EmailSender>();
+        services.AddSingleton<IConfirmationSender, PushNotificationSender>();
         services.AddSingleton<ICleaningNotifier, SmsSender>();
 
         return services;
